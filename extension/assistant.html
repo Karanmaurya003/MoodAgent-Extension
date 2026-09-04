@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoodAgent Assistant</title>
+  <link rel="stylesheet" href="assistant.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <div class="eyebrow">MoodAgent Studio</div>
+        <h1>Assistant Workspace</h1>
+        <p>Standalone chat with image OCR, voice input, and spoken answers.</p>
+      </div>
+
+      <section class="sidebar-card">
+        <div class="section-label">Status</div>
+        <div class="status-stack">
+          <div class="status-row">
+            <span>Provider</span>
+            <strong id="provider-status">Loading…</strong>
+          </div>
+          <div class="status-row">
+            <span>OCR Helper</span>
+            <strong id="ocr-status">Checking…</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="sidebar-card" id="ocr-setup">
+        <div class="section-label">OCR Setup</div>
+        <p class="muted">
+          Chrome extensions cannot silently launch local PowerShell or EXE processes. Keep the local OCR helper running when you want image and document OCR.
+        </p>
+        <pre class="command-block">powershell -NoProfile -ExecutionPolicy Bypass -File ".\backend\start-ocr-server.ps1"</pre>
+        <button class="ghost-btn" id="refresh-ocr">Refresh OCR Status</button>
+      </section>
+
+      <section class="sidebar-card">
+        <div class="section-label">Audio</div>
+        <label class="toggle-row">
+          <span>Voice input</span>
+          <button class="toggle-btn" id="voice-toggle" type="button">Start</button>
+        </label>
+        <label class="toggle-check">
+          <input type="checkbox" id="speak-toggle" />
+          <span>Read answers aloud</span>
+        </label>
+      </section>
+    </aside>
+
+    <main class="workspace">
+      <header class="workspace-header">
+        <div>
+          <div class="section-label">Full Assistant</div>
+          <h2>Ask general questions, explain screenshots, or discuss OCR text</h2>
+        </div>
+        <div class="header-actions">
+          <button class="ghost-btn" id="clear-chat">Clear Chat</button>
+          <button class="primary-btn" id="open-popup">Open Source Page Panel</button>
+        </div>
+      </header>
+
+      <section class="chat-surface">
+        <div class="message-list" id="message-list"></div>
+
+        <div class="composer">
+          <div class="attachment-bar" id="attachment-bar" hidden>
+            <div class="attachment-pill">
+              <span id="attachment-name">Image ready</span>
+              <button type="button" id="remove-image">Remove</button>
+            </div>
+          </div>
+
+          <div class="composer-row">
+            <textarea id="chat-input" rows="1" placeholder="Ask anything, or upload an image and ask me to explain it…"></textarea>
+          </div>
+
+          <div class="composer-actions">
+            <div class="left-actions">
+              <input type="file" id="image-input" accept="image/*" hidden />
+              <button class="ghost-btn" id="attach-image" type="button">Upload Image</button>
+              <button class="ghost-btn" id="mic-button" type="button">Mic</button>
+            </div>
+            <button class="primary-btn" id="send-button" type="button">Send</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assistant.js"></script>
+</body>
+</html>
